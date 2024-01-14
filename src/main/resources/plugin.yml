@@ -1,0 +1,4 @@
+name: EmeLibrary
+version: '${version}'
+main: kr.eme.library.EmeLibrary
+api-version: '1.20'
