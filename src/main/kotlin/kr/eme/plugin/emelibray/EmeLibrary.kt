@@ -4,9 +4,9 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class EmeLibrary : JavaPlugin() {
     override fun onEnable() {
-        super.onEnable()
+        logger.info("Eme Library is enabled")
     }
     override fun onDisable() {
-        super.onDisable()
+        logger.info("Eme Library is disabled")
     }
 }

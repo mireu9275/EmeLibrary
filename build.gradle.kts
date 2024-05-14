@@ -11,8 +11,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk17")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.23")
     compileOnly("io.papermc.paper:paper-api:1.20.2-R0.1-SNAPSHOT")
     testImplementation(kotlin("test"))
 }
@@ -29,8 +27,10 @@ java {
 }
 
 tasks.jar {
+    archiveFileName = "EmeLibrary.jar"
+    destinationDirectory = file("C:\\Users\\Unify\\Documents\\mcTest(paper)\\plugins")
     manifest {
-        attributes["paperweight-mappings-namespace"] = "spigot"
+        attributes["main-class"] = "kr.eme.plugin.emelibray.EmeLibrary"
     }
 }
 // if you have shadowJar configured
