@@ -1,4 +1,4 @@
-package kr.eme.plugin.emelibray.objects
+package kr.eme.plugin.emeLibrary.objects
 
 import org.bukkit.command.TabExecutor
 

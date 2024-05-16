@@ -1,8 +1,8 @@
-package kr.eme.plugin.emelibray.coroutine
+package kr.eme.plugin.emeLibrary.coroutine
 
-import kr.eme.plugin.emelibray.coroutine.SynchronizationContext.ASYNC
-import kr.eme.plugin.emelibray.coroutine.SynchronizationContext.SYNC
-import kr.eme.plugin.emelibray.main
+import kr.eme.plugin.emeLibrary.coroutine.SynchronizationContext.ASYNC
+import kr.eme.plugin.emeLibrary.coroutine.SynchronizationContext.SYNC
+import kr.eme.plugin.emeLibrary.main
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitScheduler

@@ -1,4 +1,4 @@
 name: EmeLibrary
-main: kr.eme.plugin.emelibrary.EmeLibrary
+main: kr.eme.plugin.emeLibrary.EmeLibrary
 version: 1.0
 api-version: 1.20

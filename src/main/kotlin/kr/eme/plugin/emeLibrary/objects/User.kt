@@ -1,7 +1,7 @@
-package kr.eme.plugin.emelibray.objects
+package kr.eme.plugin.emeLibrary.objects
 
-class User {
-    private var money: Long = 0
+class User(initMoney : Long = 0) {
+    private var money: Long = initMoney
 
     fun getMoney(): Long = money
     fun setMoney(amount: Long) {

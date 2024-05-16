@@ -1,4 +1,4 @@
-package kr.eme.plugin.emelibray.coroutine
+package kr.eme.plugin.emeLibrary.coroutine
 
 import kotlinx.coroutines.*
 import org.bukkit.Bukkit

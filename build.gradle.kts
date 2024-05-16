@@ -42,6 +42,6 @@ tasks.shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
     destinationDirectory = file("D:\\minecraft\\1. 버킷 관련\\1.20.2 paper_dev2\\plugins")
     manifest {
-        attributes["main-class"] = "kr.eme.plugin.emelibray.EmeLibrary"
+        attributes["main-class"] = "kr.eme.plugin.emeLibrary.EmeLibrary"
     }
 }

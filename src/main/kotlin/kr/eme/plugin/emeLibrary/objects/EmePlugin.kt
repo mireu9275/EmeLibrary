@@ -1,4 +1,4 @@
-package kr.eme.plugin.emelibray.objects
+package kr.eme.plugin.emeLibrary.objects
 
 import org.bukkit.command.CommandExecutor
 import org.bukkit.event.Listener
@@ -19,6 +19,7 @@ abstract class EmePlugin: JavaPlugin() {
         for (listener in listeners) {
             pluginManager.registerEvents(listener, this)
         }
+
     }
 
     /**
