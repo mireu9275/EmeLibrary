@@ -12,6 +12,10 @@ object UserManager {
     fun removeUser(uuid: UUID) {
         userMap.remove(uuid)
     }
+    fun getUserMoney(uuid: UUID): Long {
+        val user = getUser(uuid) ?: return 0
+        return user.getMoney()
+    }
     fun setUserMoney(uuid: UUID, amount: Long) {
         val user = getUser(uuid) ?: return
         user.setMoney(amount)

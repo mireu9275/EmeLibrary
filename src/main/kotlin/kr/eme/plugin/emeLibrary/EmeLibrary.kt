@@ -1,7 +1,7 @@
 package kr.eme.plugin.emeLibrary
 
 import kr.eme.plugin.emeLibrary.commands.MoneyCommands
-import kr.eme.plugin.emeLibrary.listerners.MoneyListener
+import kr.eme.plugin.emeLibrary.listeners.MoneyListener
 import kr.eme.plugin.emeLibrary.managers.FileManager
 import kr.eme.plugin.emeLibrary.objects.EmePlugin
 
@@ -18,7 +18,7 @@ class EmeLibrary : EmePlugin() {
     }
     private fun registerCommands() {
         registerCommands(
-            "money" to MoneyCommands
+            MoneyCommands
         )
     }
     private fun registerEvents() {

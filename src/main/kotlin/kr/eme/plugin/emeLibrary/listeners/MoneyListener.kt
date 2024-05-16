@@ -1,6 +1,5 @@
-package kr.eme.plugin.emeLibrary.listerners
+package kr.eme.plugin.emeLibrary.listeners
 
-import kr.eme.plugin.emeLibrary.managers.FileManager
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -8,6 +7,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 object MoneyListener : Listener{
     @EventHandler
     fun onJoin(e: PlayerJoinEvent) {
-        if (!FileManager.createUserConfigFile(e.player)) return
+        val player = e.player
+        player.sendMessage("Hello")
     }
 }

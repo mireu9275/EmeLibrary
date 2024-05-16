@@ -19,16 +19,15 @@ abstract class EmePlugin: JavaPlugin() {
         for (listener in listeners) {
             pluginManager.registerEvents(listener, this)
         }
-
     }
-
     /**
      * Register commands
      *
      * @param commands
      */
-    fun registerCommands(vararg commands: Pair<String, CommandExecutor>) {
-        for ((commandKey, command) in commands) {
+    fun registerCommands(vararg commands: EmeCommand) {
+        for (command in commands) {
+            val commandKey = command.commandKey
             val ymlCommand = getCommand(commandKey)
             if (ymlCommand == null) {
                 warn("$commandKey 명령어 설정에 실패하였습니다. (plugin.yml 에서 찾을 수 없습니다.)")
