@@ -9,6 +9,7 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/*
 *.iws
 *.iml
 *.ipr
@@ -40,5 +41,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+<<<<<<< HEAD
 
 .idea/*
+=======
+>>>>>>> 6431cbc91b7281413c08ce4c6ec1cb01d17baf54
