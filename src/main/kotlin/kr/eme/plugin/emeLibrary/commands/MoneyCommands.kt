@@ -1,12 +1,10 @@
 package kr.eme.plugin.emeLibrary.commands
 
 import kr.eme.plugin.emeLibrary.main
-import kr.eme.plugin.emeLibrary.managers.UserManager
+import kr.eme.plugin.emeLibrary.managers.UserMoneyManager
 import kr.eme.plugin.emeLibrary.objects.EmeCommand
-import kr.eme.plugin.emeLibrary.objects.User
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.UUID
@@ -78,8 +76,8 @@ object MoneyCommands : EmeCommand("money") {
             val amount = parseAmount(args[1],sender) ?: return
             val targetPlayer = getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
-            UserManager.withdrawUserMoney(uuid, amount)
-            UserManager.depositUserMoney(targetUUID, amount)
+            UserMoneyManager.withdrawUserMoney(uuid, amount)
+            UserMoneyManager.depositUserMoney(targetUUID, amount)
             sender.sendMessage("${targetPlayer.name}님에게 ${amount}원을 보냈습니다.")
         } catch (e: Exception) {
             main.warn("명령어 처리 중 오류가 발생하였습니다. ${e.message}")
@@ -95,7 +93,7 @@ object MoneyCommands : EmeCommand("money") {
             val amount = parseAmount(args[1],sender) ?: return
             val targetPlayer = getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
-            UserManager.depositUserMoney(targetUUID, amount)
+            UserMoneyManager.depositUserMoney(targetUUID, amount)
         } catch (e: Exception) {
             main.warn("명령어 처리 중 오류가 발생하였습니다. ${e.message}")
             sender.sendMessage(UNDEFINED_ERROR)
@@ -110,7 +108,7 @@ object MoneyCommands : EmeCommand("money") {
             val amount = parseAmount(args[1],sender) ?: return
             val targetPlayer = getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
-            UserManager.withdrawUserMoney(targetUUID, amount)
+            UserMoneyManager.withdrawUserMoney(targetUUID, amount)
         } catch (e: Exception) {
             main.warn("명령어 처리 중 오류가 발생하였습니다. ${e.message}")
             sender.sendMessage(UNDEFINED_ERROR)
@@ -125,7 +123,7 @@ object MoneyCommands : EmeCommand("money") {
             val amount = parseAmount(args[1],sender) ?: return
             val targetPlayer = getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
-            UserManager.setUserMoney(targetUUID, amount)
+            UserMoneyManager.setUserMoney(targetUUID, amount)
         } catch (e: Exception) {
             main.warn("명령어 처리 중 오류가 발생하였습니다. ${e.message}")
             sender.sendMessage(UNDEFINED_ERROR)
@@ -155,5 +153,5 @@ object MoneyCommands : EmeCommand("money") {
         val player = sender as Player
         return player.uniqueId
     }
-    private fun getUserMoney(uuid: UUID): Long = UserManager.getUserMoney(uuid)
+    private fun getUserMoney(uuid: UUID): Long = UserMoneyManager.getUserMoney(uuid)
 }

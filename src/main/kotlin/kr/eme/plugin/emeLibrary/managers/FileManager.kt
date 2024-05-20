@@ -1,36 +1,33 @@
 package kr.eme.plugin.emeLibrary.managers
 
-import kr.eme.plugin.emeLibrary.main
-import org.bukkit.entity.Player
+import org.yaml.snakeyaml.DumperOptions
+import org.yaml.snakeyaml.Yaml
 import java.io.File
 
-object FileManager {
-    private val userFolder : File = File("${main.dataFolder}\\emeUser")
-
-    fun initialize() {
-        createUsersFolder()
-    }
-    private fun createUsersFolder() {
-        if (!userFolder.exists()) {
-            userFolder.mkdirs()
-            main.logger.info("Created user folder ${userFolder.absolutePath}")
+class FileManager<T>(private val clazz: Class<T>, val directory: File) {
+    init {
+        if (!directory.exists()) {
+            directory.mkdirs()
         }
     }
-    fun createUserConfigFile(player: Player) : Boolean {
-        val uuid = player.uniqueId.toString()
-        val configFile = File(main.dataFolder, uuid)
-        if (!configFile.exists()) {
-            main.saveDefaultConfig()
-            main.logger.info("Created user config file ${configFile.absolutePath}")
-            return true
-        }
-        return false
+    private fun getFile(fileName: String): File {
+        return File(directory, fileName)
     }
-    fun loadUserConfigFile(player: Player) : Boolean {
-        val uuid = player.uniqueId.toString()
-        val configFile = File(main.dataFolder, uuid)
-        if (!configFile.exists()) return false
-        // loadUserMoney
-        return true
+    fun load(fileName: String): T? {
+        val file = getFile(fileName)
+        if (!file.exists()) return null
+        val yaml = Yaml()
+        return yaml.loadAs(file.readText(), clazz)
+    }
+    fun save(fileName: String, data: T) {
+        val file = getFile(fileName)
+        val option = DumperOptions().apply {
+            defaultFlowStyle = DumperOptions.FlowStyle.BLOCK
+        }
+        val yaml = Yaml(option)
+        file.writeText(yaml.dump(data))
+    }
+    fun reload(fileName: String): T? {
+        return load(fileName)
     }
 }
