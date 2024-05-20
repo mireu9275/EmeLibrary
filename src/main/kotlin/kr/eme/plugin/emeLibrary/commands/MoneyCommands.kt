@@ -2,8 +2,8 @@ package kr.eme.plugin.emeLibrary.commands
 
 import kr.eme.plugin.emeLibrary.main
 import kr.eme.plugin.emeLibrary.managers.UserMoneyManager
+import kr.eme.plugin.emeLibrary.managers.UtilManager
 import kr.eme.plugin.emeLibrary.objects.EmeCommand
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -47,17 +47,26 @@ object MoneyCommands : EmeCommand("money") {
     /**
      * Usage
      *
+     * 명령어 사용법을 보여줍니다.
      * @param sender
      */
     private fun usage(sender: CommandSender) {
         sender.sendMessage(TITLE + VIEW1 + SEND)
         if(sender.isOp) sender.sendMessage(VIEW2 + DEPOSIT + WITHDRAW + SET + RANK)
     }
-
+    /**
+     * View
+     *
+     * 자신이 소유하고 있는 돈을 확인합니다.
+     *
+     * 어드민은 다른사람 and 오프라인 유저의 돈을 확인 할 수 있습니다.
+     * @param sender
+     * @param args
+     */
     private fun view(sender: CommandSender, args: Array<out String>) {
         when (args.size) {
             1 -> { // 자신의 돈 보기.
-                val uuid = getUUID(sender)
+                val uuid = UtilManager.getUUID(sender)
                 val money = getUserMoney(uuid)
                 sender.sendMessage("${sender.name}님의 자산은 ${money}원 입니다.")
             }
@@ -66,16 +75,24 @@ object MoneyCommands : EmeCommand("money") {
             }
         }
     }
+    private fun getUserMoney(uuid: UUID): Long = UserMoneyManager.getUserMoney(uuid)
+    /**
+     * Send
+     *
+     * target Player 에게 돈을 보냅니다.
+     * @param sender
+     * @param args
+     */
     private fun send(sender: CommandSender, args: Array<out String>) {
         if (args.size != 3) {
             sender.sendMessage(SEND)
             return
         }
         try {
-            val uuid = getUUID(sender)
-            val amount = parseAmount(args[1],sender) ?: return
-            val targetPlayer = getPlayer(args[2],sender) ?: return
+            val amount = UtilManager.parseAmount(args[1],sender) ?: return
+            val targetPlayer = UtilManager.getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
+            val uuid = UtilManager.getUUID(sender)
             UserMoneyManager.withdrawUserMoney(uuid, amount)
             UserMoneyManager.depositUserMoney(targetUUID, amount)
             sender.sendMessage("${targetPlayer.name}님에게 ${amount}원을 보냈습니다.")
@@ -84,14 +101,21 @@ object MoneyCommands : EmeCommand("money") {
             sender.sendMessage(UNDEFINED_ERROR)
         }
     }
+    /**
+     * Deposit
+     *
+     * target Player 의 돈을 차감합니다.
+     * @param sender
+     * @param args
+     */
     private fun deposit(sender: CommandSender, args: Array<out String>) {
         if (args.size != 3) {
             sender.sendMessage(DEPOSIT)
             return
         }
         try {
-            val amount = parseAmount(args[1],sender) ?: return
-            val targetPlayer = getPlayer(args[2],sender) ?: return
+            val amount = UtilManager.parseAmount(args[1],sender) ?: return
+            val targetPlayer = UtilManager.getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
             UserMoneyManager.depositUserMoney(targetUUID, amount)
         } catch (e: Exception) {
@@ -99,14 +123,21 @@ object MoneyCommands : EmeCommand("money") {
             sender.sendMessage(UNDEFINED_ERROR)
         }
     }
+    /**
+     * Withdraw
+     *
+     * target Player 의 돈을 추가합니다.
+     * @param sender
+     * @param args
+     */
     private fun withdraw(sender: CommandSender, args: Array<out String>) {
         if (args.size != 3) {
             sender.sendMessage(WITHDRAW)
             return
         }
         try {
-            val amount = parseAmount(args[1],sender) ?: return
-            val targetPlayer = getPlayer(args[2],sender) ?: return
+            val amount = UtilManager.parseAmount(args[1],sender) ?: return
+            val targetPlayer = UtilManager.getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
             UserMoneyManager.withdrawUserMoney(targetUUID, amount)
         } catch (e: Exception) {
@@ -114,14 +145,21 @@ object MoneyCommands : EmeCommand("money") {
             sender.sendMessage(UNDEFINED_ERROR)
         }
     }
+    /**
+     * Set
+     *
+     * target Player 의 돈을 설정합니다.
+     * @param sender
+     * @param args
+     */
     private fun set(sender: CommandSender, args: Array<out String>) {
         if (args.size != 3) {
             sender.sendMessage(SET)
             return
         }
         try {
-            val amount = parseAmount(args[1],sender) ?: return
-            val targetPlayer = getPlayer(args[2],sender) ?: return
+            val amount = UtilManager.parseAmount(args[1],sender) ?: return
+            val targetPlayer = UtilManager.getPlayer(args[2],sender) ?: return
             val targetUUID = targetPlayer.uniqueId
             UserMoneyManager.setUserMoney(targetUUID, amount)
         } catch (e: Exception) {
@@ -132,26 +170,4 @@ object MoneyCommands : EmeCommand("money") {
     private fun rank() {
         TODO()
     }
-
-    private fun parseAmount(amountStr: String, sender: CommandSender): Long? {
-        return try {
-            amountStr.toLong()
-        } catch (e: NumberFormatException) {
-            main.warn("잘못된 금액 형식입니다 : $amountStr")
-            sender.sendMessage("잘못된 금액 형식입니다 : $amountStr")
-            null
-        }
-    }
-    private fun getPlayer(playerName: String, sender: CommandSender): Player? {
-        val player = Bukkit.getPlayerExact(playerName)
-        if (player == null) {
-            sender.sendMessage("플레이어 ${playerName}을(를) 찾을 수 없습니다.")
-        }
-        return player
-    }
-    private fun getUUID(sender: CommandSender): UUID {
-        val player = sender as Player
-        return player.uniqueId
-    }
-    private fun getUserMoney(uuid: UUID): Long = UserMoneyManager.getUserMoney(uuid)
 }
