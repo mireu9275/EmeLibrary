@@ -1,6 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="EmeLibrary:jar">
-    <output-path>$PROJECT_DIR$/../../1. 버킷 관련/1.20.2 paper_dev2/plugins</output-path>
-    <root id="archive" name="EmeLibrary.jar" />
-  </artifact>
-</component>
